@@ -54,6 +54,14 @@ Route::get('/books/{title}', 'BookController@show');
 //second thing we pass in is a string of the controller and the method within it that we want to invoke.
 Route::get('/books', 'BookController@index');
 
+/*
+ * Pages
+ * Simple, static pages without a lot of logic
+ */
+Route::view('/about', 'about');
+Route::view('/contact', 'contact');
+
+
 /**
  * Practice
  */

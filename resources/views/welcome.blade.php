@@ -1,18 +1,13 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.master')
 
-    <title>Foobooks</title>
+@section('content')
+    <h1>Welcome to {{ config('app.name') }}</h1>
 
-</head>
-<body>
-<h1>Foobooks</h1>
+    <p>
+        @include('modules.description')
+    </p>
 
-</body>
-</html>
+@endsection
 
 
 
