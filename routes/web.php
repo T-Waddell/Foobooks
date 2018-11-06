@@ -36,6 +36,9 @@ Route::get('/', 'WelcomeController');
 });
 */
 
+Route::get('/books/search', 'BookController@search'); # <-- NEW 1 of 2
+Route::get('/books/search-process', 'BookController@searchProcess'); # <-- NEW 2 of 2
+
 //By coding a specific action for the /books route with no title, we no longer need
 //to make the title optional.
 //original method, replaced by the controller below:
