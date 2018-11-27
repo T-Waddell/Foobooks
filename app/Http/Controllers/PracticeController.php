@@ -2,8 +2,134 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use IanLChapman\PigLatinTranslator\Parser;
+use App\Book;
 class PracticeController extends Controller
 {
+    /*Remove any/all books by the author “J.K. Rowling”.
+    */
+    public function practice12()
+    {
+        $result = Book::where('author', '=', 'J.K. Rowling')->get();
+        dump($result->toArray());
+    }
+
+    /*
+        Retrieve all the books in descending order according to published date.
+    */
+    public function practice11()
+    {
+        $result = Book::where('published_year', '>', '1950')->orderBy('published_year', 'desc')->get();
+        dump($result->toArray());
+    }
+
+    /*Retrieve all the books in alphabetical order by title.
+    */
+    public function practice10()
+    {
+        $result = Book::orderBy('title', 'asc')->get();
+        dump($result->toArray());
+    }
+
+    /*
+        Retrieve all the books published after 1950.
+    */
+    public function practice9()
+    {
+        $result = Book::where('published_year', '>', '1950')->get();
+        dump($result->toArray());
+    }
+
+    /*Retrieve the last 2 books that were added to the books table.
+    */
+    public function practice8()
+    {
+        $result = Book::orderBy('created_at', 'desc')->limit(2)->get();
+        dump($result->toArray());
+
+        $book = new Book();
+        #parameters: column we want to search, the constraint for that column, search term
+        #The % around the search term are essentially wildcards
+        $books = Book::orderBy('created_at', 'desc')->limit(2)->get();
+
+        if ($books->isEmpty()) {
+            dump('No matches found');
+        } else {
+            foreach ($books as $book) {
+                dump($book->title);
+            }
+        }
+    }
+
+    public function practice7()
+    {
+        # First get a book to delete
+        $book = Book::where('author', '=', 'F. Scott Fitzgerald')->first();
+
+        if (!$book) {
+            dump('Did not delete- Book not found.');
+        } else {
+            $book->delete();
+            dump('Deletion complete; check the database to see if it worked...');
+        }
+    }
+
+    public function practice6()
+    {
+        # First get a book to update
+        $book = Book::where('author', '=', 'F. Scott Fitzgerald')->first();
+
+        if (!$book) {
+            dump("Book not found, can't update.");
+        } else {
+            # Change some properties
+            $book->title = 'The Really Great Gatsby';
+            $book->published_year = '2025';
+
+            # Save the changes
+            $book->save();
+
+            dump('Update complete; check the database to confirm the update worked.');
+        }
+    }
+
+    public function practice5()
+    {
+        $book = new Book();
+        #parameters: column we want to search, the constraint for that column, search term
+        #The % around the search term are essentially wildcards
+        $books = $book->where('title', 'LIKE', '%Harry Potter%')->get();
+
+        if ($books->isEmpty()) {
+            dump('No matches found');
+        } else {
+            foreach ($books as $book) {
+                dump($book->title);
+            }
+        }
+    }
+
+    public function practice4()
+    {
+        # Instantiate a new Book Model object
+        $book = new Book();
+
+        # Set the properties
+        # Note how each property corresponds to a field in the table
+        $book->title = 'Harry Potter and the Sorcerer\'s Stone';
+        $book->author = 'J.K. Rowling';
+        $book->published_year = 1997;
+        $book->cover_url = 'http://prodimage.images-bn.com/pimages/9780590353427_p0_v1_s484x700.jpg';
+        $book->purchase_url = 'http://www.barnesandnoble.com/w/harry-potter-and-the-sorcerers-stone-j-k-rowling/1100036321?ean=9780590353427';
+
+        # Invoke the Eloquent `save` method to generate a new row in the
+        # `books` table, with the above data (behind scenes it runs an sql command)
+        $book->save();
+
+        dump('Added: '.$book->title);
+    }
+
+
+
     /**
      * Demonstrating using an external package
      */
